@@ -1,0 +1,120 @@
+# 网格波动率扫描器 - 市场配置文件
+# 配置不同代币的网格参数
+
+# 🔥 默认配置（未单独配置的代币使用此配置）
+default:
+  grid_width_percent: 50.0         # 网格总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+# 🪙 主流币种配置（BTC、ETH、SOL、BNB）
+BTC:
+  grid_width_percent: 20.0         # 总宽度：20%（±10%）
+  grid_interval_percent: 0.03      # 格子间距：0.03%（万分之3）
+
+ETH:
+  grid_width_percent: 20.0         # 总宽度：20%（±10%）
+  grid_interval_percent: 0.03      # 格子间距：0.03%（万分之3）
+
+SOL:
+  grid_width_percent: 20.0         # 总宽度：20%（±10%）
+  grid_interval_percent: 0.03      # 格子间距：0.03%（万分之3）
+
+BNB:
+  grid_width_percent: 20.0         # 总宽度：20%（±10%）
+  grid_interval_percent: 0.03      # 格子间距：0.03%（万分之3）
+
+# 📈 中等波动币种（暂时统一使用默认配置，可以后续手动调整）
+AVAX:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+MATIC:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+DOT:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+LINK:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+# 🚀 高波动币种（暂时统一使用默认配置，可以后续手动调整）
+DOGE:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+SHIB:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+PEPE:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+WIF:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+BONK:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+# 📊 稳定币/低波动（暂时统一使用默认配置，可以后续手动调整）
+USDT:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+USDC:
+  grid_width_percent: 50.0         # 总宽度：50%（±25%）
+  grid_interval_percent: 0.1       # 格子间距：0.1%（千分之1）
+
+# 🔧 扫描器全局配置
+scanner_config:
+  # WebSocket配置
+  reconnect_interval: 5            # WebSocket断线重连间隔（秒）
+  price_update_timeout: 30         # 价格更新超时（秒）
+  
+  # 扫描配置
+  min_24h_volume_usdc: 100000      # 最小24小时成交量（USDC），低于此值不扫描
+  scan_duration_seconds: 3600      # 默认扫描时长（秒），1小时
+  
+  # APR计算配置
+  order_value_usdc: 10             # 每格订单价值（USDC）- 固定值
+  fee_rate_percent: 0.004          # 双边手续费率（%）- 固定值 0.02% × 2
+  
+  # UI刷新配置
+  ui_refresh_interval: 0.5         # UI刷新间隔（秒）
+  log_queue_size: 20               # 日志队列大小（条）
+  
+  # 结果过滤
+  min_cycles_to_display: 0         # 最小循环次数（0=显示所有，包括还没有循环的）
+  top_n_results: 50                # 显示前N名结果（按APR排序）
+  
+  # APR计算配置
+  apr_time_window_minutes: 5       # APR滚动窗口时长（分钟）- 只统计过去5分钟的循环
+  
+  # 🔔 APR报警配置
+  apr_alert_threshold: 1500.0       # APR报警阈值（%），超过此值触发声音报警
+  apr_alert_max_count: 3           # 每个代币最大报警次数（避免无限报警）
+  apr_alert_cooldown_seconds: 300  # 报警冷却时间（秒），避免频繁报警（默认5分钟）
+
+# 📝 说明：
+# 1. grid_width_percent: 网格总宽度百分比（从当前价格计算上下边界）
+#    例如：当前价格$3000，宽度5% → 上边界$3150，下边界$2850
+#
+# 2. grid_interval_percent: 每个格子的间距百分比
+#    例如：间距0.5% → 每格价差 = 当前价格 × 0.5% = $15
+#
+# 3. 网格数量自动计算：
+#    网格数量 = grid_width_percent / grid_interval_percent
+#    例如：5% / 0.5% = 10格
+#
+# 4. 总投入本金计算：
+#    总本金 = order_value_usdc × 网格数量
+#    例如：10 USDC × 10格 = 100 USDC
+#
+# 5. APR计算公式（简化版）：
+#    APR = (格子间距% - 手续费%) × 格子间距% / 网格宽度% × 每小时循环 × 8760
+

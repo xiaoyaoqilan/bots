@@ -1,0 +1,163 @@
+# ====================================
+# 价格监控报警系统配置文件
+# ====================================
+# 功能：实时监控代币价格波动，异常波动时发出声音报警
+
+price_alert:
+  # ============================================================================
+  # 交易所配置
+  # ============================================================================
+  exchange: "binance"              # 交易所（目前仅支持 binance）
+  
+  # ============================================================================
+  # 监控代币列表
+  # ============================================================================
+  # 每个代币可以单独配置监控参数
+  symbols:
+    - symbol: "BTC/USDT"           # 交易对符号
+      market_type: "spot"          # 市场类型：spot(现货) 或 perpetual(永续合约)
+      enabled: true                # 是否启用监控
+      
+      # 波动报警配置
+      volatility_alert:
+        enabled: true              # 是否启用波动报警
+        time_window: 300           # 时间窗口（秒）- 5分钟
+        threshold_percent: 3.0     # 波动阈值（%）- 可自行调整
+        
+      # 价格目标报警
+      price_alert:
+        enabled: true              # 是否启用价格报警
+        upper_limit: 110000        # 价格上限 - 突破此价格报警（0表示不设置）
+        lower_limit: 95000        # 价格下限 - 跌破此价格报警（0表示不设置）
+    
+    - symbol: "ETH/USDT"
+      market_type: "spot"
+      enabled: true
+      volatility_alert:
+        enabled: true
+        time_window: 300           # 5分钟
+        threshold_percent: 5.0     # 可自行调整
+      price_alert:
+        enabled: true
+        upper_limit: 4000
+        lower_limit: 2500
+    
+    - symbol: "SOL/USDT"
+      market_type: "spot"
+      enabled: true
+      volatility_alert:
+        enabled: true
+        time_window: 300           # 5分钟
+        threshold_percent: 5.0     # 2%
+      price_alert:
+        enabled: true
+        upper_limit: 250
+        lower_limit: 130
+    
+    - symbol: "USDE/USDT"
+      market_type: "spot"
+      enabled: true
+      volatility_alert:
+        enabled: true
+        time_window: 300           # 5分钟
+        threshold_percent: 0.5     # 可自行调整 (稳定币建议小值)
+      price_alert:
+        enabled: true
+        upper_limit: 1.02          # 稳定币上限
+        lower_limit: 0.98          # 稳定币下限
+    
+    - symbol: "USDC/USDT"
+      market_type: "spot"
+      enabled: true
+      volatility_alert:
+        enabled: true
+        time_window: 300           # 5分钟
+        threshold_percent: 0.5     # 可自行调整 (稳定币建议小值)
+      price_alert:
+        enabled: true
+        upper_limit: 1.02          # 稳定币上限
+        lower_limit: 0.98          # 稳定币下限
+    
+    - symbol: "BNB/USDT"
+      market_type: "spot"
+      enabled: true
+      volatility_alert:
+        enabled: true
+        time_window: 300           # 5分钟
+        threshold_percent: 5.0     # 可自行调整
+      price_alert:
+        enabled: true
+        upper_limit: 1300           # BNB上限
+        lower_limit: 650           # BNB下限
+    
+    - symbol: "HYPE/USDT:USDT"     # HYPE 永续合约
+      market_type: "perpetual"
+      enabled: true
+      volatility_alert:
+        enabled: true
+        time_window: 300           # 5分钟
+        threshold_percent: 5.0     # 可自行调整
+      price_alert:
+        enabled: true
+        upper_limit: 50            # HYPE上限（请根据实际价格调整）
+        lower_limit: 25            # HYPE下限（请根据实际价格调整）
+    
+    - symbol: "BTC/USDT:USDT"      # 永续合约格式
+      market_type: "perpetual"
+      enabled: false               # 暂时不启用
+      volatility_alert:
+        enabled: true
+        time_window: 60
+        threshold_percent: 1.0
+      price_alert:
+        enabled: false
+        upper_limit: 0
+        lower_limit: 0
+  
+  # ============================================================================
+  # 报警配置
+  # ============================================================================
+  alert:
+    sound_enabled: true            # 是否启用声音报警
+    sound_type: "beep"             # 声音类型：beep(哔哔声) 或 system(系统铃声)
+    sound_duration: 0.5            # 声音持续时间（秒）
+    sound_repeat: 10                # 重复次数
+    
+    # 报警冷却时间（避免频繁报警）
+    cooldown_seconds: 30           # 同一代币同一类型报警的最小间隔（秒）
+  
+  # ============================================================================
+  # 终端显示配置
+  # ============================================================================
+  display:
+    refresh_interval: 1            # 刷新间隔（秒）
+    show_columns:                  # 显示的列
+      - symbol                     # 代币符号
+      - price                      # 当前价格
+      - change_24h                 # 24小时变化%
+      - change_window              # 时间窗口内变化%
+      - high_low                   # 最高价/最低价
+      - alert_count                # 报警次数
+      - last_update                # 最后更新时间
+    
+    # 颜色配置
+    colors:
+      price_up: "green"            # 价格上涨颜色
+      price_down: "red"            # 价格下跌颜色
+      alert: "yellow"              # 报警颜色
+      normal: "white"              # 正常颜色
+  
+  # ============================================================================
+  # 日志配置
+  # ============================================================================
+  logging:
+    enabled: true
+    log_to_file: true
+    log_to_console: false          # 不输出到控制台（避免干扰终端UI）
+    log_level: "INFO"
+    log_dir: "logs"
+    log_file: "price_alert.log"
+    
+    # 报警历史日志
+    alert_history_file: "logs/alert_history.log"
+

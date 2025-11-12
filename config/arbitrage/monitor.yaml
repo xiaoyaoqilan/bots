@@ -1,0 +1,50 @@
+# ============================================================================
+# 套利监控系统配置
+# ============================================================================
+
+# 交易所配置（当前专注开发 Lighter 和 EdgeX）
+exchanges:
+  # - backpack  # 暂时禁用，等脚本稳定后再接入
+  - edgex
+  - lighter
+
+# 监控的交易对（标准化符号格式）
+symbols:
+  - BTC-USDC-PERP
+  - ETH-USDC-PERP
+  - SOL-USDC-PERP
+  - DOGE-USDC-PERP
+  - AVAX-USDC-PERP
+  - LINK-USDC-PERP
+  - UNI-USDC-PERP
+  - CRV-USDC-PERP
+  - ADA-USDC-PERP
+  - AAVE-USDC-PERP
+  - HYPE-USDC-PERP
+  - NEAR-USDC-PERP
+
+# 套利阈值配置
+thresholds:
+  price_spread: 0.005        # 价差阈值（0.5%）
+  funding_rate: 0.0001       # 资金费率差阈值（0.01%）
+  min_score: 0.001           # 最小评分阈值（0.1%）
+
+# 监控配置
+monitoring:
+  update_interval: 5         # 更新间隔（秒）
+  enable_sound_alert: true   # 启用声音报警
+  alert_repeat: 3            # 报警重复次数
+
+# 终端UI配置
+display:
+  refresh_rate: 1.0          # 刷新率（秒）
+  max_opportunities: 200     # 最多显示的套利机会数量（增加到200）
+  show_all_prices: true      # 显示所有交易对价格
+  show_funding_rates: true   # 显示资金费率
+
+# 日志配置
+logging:
+  level: INFO
+  file: logs/arbitrage_monitor.log
+  console: true
+
