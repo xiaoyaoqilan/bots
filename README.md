@@ -1,5 +1,5 @@
 # 多交易所策略自动化系统
-开源的正在实盘测试这个。。。
+开源的正在实盘测试这个。。。大部分都是ai生成的暂时还得调整一下。
 **Multi-Exchange Strategy Automation System**
 
 ## 🎯 项目简介
